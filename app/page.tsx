@@ -13,7 +13,7 @@ export default function Home() {
     e.target.reset();
 
     try {
-      await fetch("http://localhost:3000/api/send", {
+      await fetch("http://localhost:3000/api/send/nodemailer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,6 +58,7 @@ export default function Home() {
               id="name"
               placeholder="Masukan nama anda"
               type="text"
+              name="name"
             />
           </div>
           <div>
@@ -72,6 +73,7 @@ export default function Home() {
               id="email"
               placeholder="Masukan email anda"
               type="email"
+              name="email"
             />
           </div>
           <button
