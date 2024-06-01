@@ -1,8 +1,9 @@
 import WelcomeTemplate from "@/emails";
 import { render } from "@react-email/components";
 import { sendMail } from "./nodemailer";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { email, userFirstname } = await req.json();
 
   try {
@@ -11,9 +12,9 @@ export async function POST(req: Request) {
       "Testing Nodemailer",
       render(WelcomeTemplate({ userFirstname }))
     );
-    return Response.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
