@@ -1,21 +1,16 @@
 import WelcomeTemplate from "@/emails";
 import { render } from "@react-email/components";
-import { transporter } from "./nodemailer";
+import { sendMail } from "./nodemailer";
 
 export async function POST(req: Request) {
-  const {
-    email = "maulanarasyit123@gmail.com",
-    userFirstname = "ahmad maulana",
-  } = await req.json();
+  const { email, userFirstname } = await req.json();
 
   try {
-    await transporter.sendMail({
-      from: "amlana009@gmail.com",
-      to: email,
-      subject: "Testing Nodemailer",
-      text: "Testing Nodemailer",
-      html: render(WelcomeTemplate({ userFirstname })),
-    });
+    await sendMail(
+      email,
+      "Testing Nodemailer",
+      render(WelcomeTemplate({ userFirstname }))
+    );
     return Response.json({ success: true }, { status: 200 });
   } catch (error) {
     console.log(error);
