@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [emailSending, setEmailSending] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -11,15 +12,18 @@ export default function Home() {
     const email = e.target.email.value;
 
     e.target.reset();
+    setIsLoading(true);
 
     try {
-      await fetch("http://localhost:3000/api/send/nodemailer", {
+      await fetch("/api/send/nodemailer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ userFirstname: name, email }),
       });
+
+      setIsLoading(false);
       setEmailSending(true);
       setTimeout(() => setEmailSending(false), 3000);
     } catch (error) {
@@ -80,7 +84,16 @@ export default function Home() {
             className="w-full bg-[#4ABDAC] hover:bg-[#3aa39a] text-white font-medium py-2 px-4 rounded-lg transition-colors"
             type="submit"
           >
-            Kirim email
+            {isLoading ? (
+              <>
+                <span className="animate-spin inline-block mr-3 bg-white rounded-full">
+                  /
+                </span>{" "}
+                Sedang dikirim...
+              </>
+            ) : (
+              "Kirim email"
+            )}
           </button>
         </form>
       </div>
