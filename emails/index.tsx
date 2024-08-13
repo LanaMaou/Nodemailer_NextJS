@@ -39,7 +39,7 @@ export const WelcomeTemplate = ({ userFirstname }: KoalaWelcomeEmailProps) => (
           dari saya
         </Text>
         <Section style={btnContainer}>
-          <Button style={button} href="https://lanamaou.vercel.app">
+          <Button style={button} href="https://lanamaou.my.id">
             Cek Portfolio Saya
           </Button>
         </Section>
