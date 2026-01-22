@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function Home() {
   const [emailSending, setEmailSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -15,7 +16,7 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      await fetch("/api/send/nodemailer", {
+      await fetch("/api/send/resend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

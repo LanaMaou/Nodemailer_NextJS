@@ -9,9 +9,9 @@ export async function POST(req: Request) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Acme <noreply@resend.dev>",
+      from: "Maulana <lanamaou@lanamaou.my.id>",
       to: [email],
-      subject: "Testing Resend Libary",
+      subject: "Hai, Salam kenal saya Lana.",
       html: render(WelcomeTemplate({ userFirstname })),
     });
 
