@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Nodemailer + Resend Email Sender (Next.js)
 
-## Getting Started
+Project Next.js App Router untuk mengirim email menggunakan dua jalur:
+- Resend API (serverless email provider)
+- Gmail OAuth2 lewat Nodemailer
 
-First, run the development server:
+Dilengkapi template email dari React Email dan UI sederhana untuk testing.
 
+## Fitur
+- Kirim email via `/api/send/resend` dan `/api/send/nodemailer`
+- Template email reusable di `emails/index.tsx`
+- UI form sederhana di `app/page.tsx`
+- Tailwind CSS untuk styling
+
+## Tech Stack
+- Next.js 14 (App Router), React 18
+- Resend, Nodemailer, Google APIs (OAuth2)
+- React Email
+- Tailwind CSS
+
+## Mulai Cepat
+
+### Prasyarat
+- Node.js 18+ dan npm
+- Akun Resend (opsional, jika memakai Resend)
+- Gmail OAuth2 credentials (jika memakai Nodemailer)
+
+### Instalasi
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Konfigurasi Environment
+Buat file `.env` dan isi minimal seperti berikut:
+```bash
+RESEND_API_KEY=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REFRESH_TOKEN=
+EMAIL=
+VERCEL_URL=
+```
+Catatan:
+- `RESEND_API_KEY` hanya diperlukan untuk endpoint Resend.
+- `VERCEL_URL` opsional, dipakai untuk preview/link di template email.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Jalankan Dev Server
+```bash
+npm run dev
+```
+Lalu buka `http://localhost:3000`.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Preview Template Email
+```bash
+npm run email
+```
 
-## Learn More
+## Endpoint API
 
-To learn more about Next.js, take a look at the following resources:
+### POST `/api/send/resend`
+Body:
+```json
+{
+  "email": "user@example.com",
+  "userFirstname": "Lana"
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contoh curl:
+```bash
+curl -X POST http://localhost:3000/api/send/resend \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","userFirstname":"Lana"}'
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### POST `/api/send/nodemailer`
+Body sama dengan endpoint Resend:
+```json
+{
+  "email": "user@example.com",
+  "userFirstname": "Lana"
+}
+```
 
-## Deploy on Vercel
+## Struktur Folder
+- `app/page.tsx` - UI form pengiriman email
+- `app/api/send/resend/route.ts` - API Resend
+- `app/api/send/nodemailer/route.ts` - API Nodemailer
+- `app/api/send/nodemailer/nodemailer.ts` - transport Gmail OAuth2
+- `emails/index.tsx` - template email
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Script
+- `npm run dev` - jalankan dev server
+- `npm run build` - build production
+- `npm run start` - jalankan build
+- `npm run lint` - lint project
+- `npm run email` - preview email template
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Kustomisasi
+- Ubah template email di `emails/index.tsx`
+- Ganti `from`/subject di `app/api/send/resend/route.ts`
+- Ganti subject atau transport di `app/api/send/nodemailer/nodemailer.ts`
+
+## Deployment
+Pastikan environment variables di-hosting sudah di-set, lalu:
+```bash
+npm run build
+npm run start
+```
